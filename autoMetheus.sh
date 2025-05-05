@@ -94,7 +94,7 @@ do
     # ==== PROMQL QUERIES ============================================================================================
     elif $option =="4";
     then 
-        python3 ./Scripts/queryPromQL.py
+        python3 ./Scripts/query-MetricOptions.py
     else 
         echo -e "${RED}[ERROR]${WHITE} $option is not a valid option. Please enter a valid option to continue."
     fi 
