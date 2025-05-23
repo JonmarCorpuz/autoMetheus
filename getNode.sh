@@ -18,6 +18,6 @@ tar xvfz node_exporter-1.9.1.linux-amd64.tar.gz
 cd node_exporter-1.9.1.linux-amd64
 ./node_exporter &
 
-echo -e "${GREEN}[SUCCESS]${WHITE} Node Exporter was successfully installed"
+echo -e "\n${GREEN}[SUCCESS]${WHITE} Node Exporter was successfully installed"
 
 # curl http://localhost:9100/metrics
