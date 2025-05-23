@@ -27,5 +27,5 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 
 wget https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-amd64.tar.gz
 tar xzvf snmp_exporter-0.29.0.linux-amd64.tar.gz
-cd snmp_exporter-0.29.0.linux-amd64.tar.gz
+cd snmp_exporter-0.29.0.linux-amd64
 ./snmp_exporter
