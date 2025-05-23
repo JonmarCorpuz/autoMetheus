@@ -11,9 +11,13 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 
 # ==== MAIN BODY =========================================================================================
 
+echo -e "${YELLOW}[WARNING]${WHITE} Installing the Node Exporter\n"
+
 wget https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
 tar xvfz node_exporter-1.9.1.linux-amd64.tar.gz
 cd node_exporter-1.9.1.linux-amd64
-./node_exporter
+./node_exporter &
+
+echo -e "${GREEN}[SUCCESS]${WHITE} Node Exporter was successfully installed"
 
 # curl http://localhost:9100/metrics
