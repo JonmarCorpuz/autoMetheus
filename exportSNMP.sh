@@ -52,6 +52,11 @@ sudo su -c 'echo """
         target_label: instance
       - target_label: __address__
         replacement: localhost:9116  # SNMP Exporter address
+
+  # Global exporter-level metrics
+  - job_name: 'snmp_exporter'
+    static_configs:
+      - targets: ['localhost:9116']
 """ >> /etc/prometheus/prometheus.yml'
 
 # ==== MAIN BODY =========================================================================================
