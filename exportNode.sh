@@ -43,7 +43,7 @@ tar xvfz node_exporter-1.9.1.linux-amd64.tar.gz &> /dev/null
 cd node_exporter-1.9.1.linux-amd64
 ./node_exporter &
 
-processID=$(ps -ef | grep snmp_exporter | grep -v grep | awk '{print $2}')
+processID=$(ps -ef | grep node_exporter | grep -v grep | awk '{print $2}')
 echo -e "\n${GREEN}[SUCCESS]${WHITE} The Node Exporter was successfully installed and is successfully running in the background under process $processID on this host"
 
 echo -e "\n${GREEN}[SUCCESS]${WHITE} Node Exporter was successfully installed"
