@@ -16,14 +16,14 @@ do
 
   read -p "Enter the IP address for your Prometheus server: " prometheusIP
 
-  if ! ping $promtheusIP;
+  if ! ping $prometheusIP -c 4 &> /dev/null;
   then
     echo -e "${RED}[ERROR]${WHITE} $prometheusIP was unreachable"
   else
     read -p "Enter SSH username: " sshUser
     read -p "Enter SSH password: " sshPassword
 
-    test=$(sshpass -p "sshpass -p '$sshPassword' ssh -o StrictHostKeyChecking=no '$sshUser@$prometheusIP'")
+    test=$(sshpass -p '$sshPassword' ssh -o StrictHostKeyChecking=no '$sshUser@$prometheusIP')
     if $test;
     then
       sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
@@ -31,7 +31,7 @@ do
     else
       echo -e "${RED}[ERROR]${WHITE} ok"
     fi
-
+  fi
 done
 
 sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
