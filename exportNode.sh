@@ -49,12 +49,12 @@ do
 
   if [[ $deviceIP =~ $IPv4 ]];
   then
+    sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
+    "echo '       - ${deviceIP}' | sudo tee -a /etc/prometheus/prometheus.yaml > /dev/null"
 
     read -p "Would you like to add another device? [Y] or [N] " addDevice
     if [[ $addDevice =~ "N" ]];
     then
-      sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
-      "echo '       - ${deviceIP}' | sudo tee -a /etc/prometheus/prometheus.yaml > /dev/null"
       break
     fi
     echo ""
