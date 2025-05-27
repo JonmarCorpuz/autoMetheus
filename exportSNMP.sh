@@ -62,7 +62,7 @@ sudo su -c 'echo """
 # ==== MAIN BODY =========================================================================================
 
 wget https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-amd64.tar.gz
-tar xzvf snmp_exporter-0.29.0.linux-amd64.tar.gz
+tar xzvf snmp_exporter-0.29.0.linux-amd64.tar.gz &> /dev/null
 cd snmp_exporter-0.29.0.linux-amd64
 
 echo """
