@@ -82,4 +82,4 @@ echo -e "${YELLOW}[INFO]${WHITE} Running the SNMP Exporter on the localhost"
 
 processID=$(ps -ef | grep snmp_exporter | grep -v grep | awk '{print $2}')
 
-echo -e "\n${GREEN}[SUCCESS]${WHITE} SNMP Exporter was successfully installed and is successfully running in the background under process $processID on this host"
+echo -e "\n${GREEN}[SUCCESS]${WHITE} The SNMP Exporter was successfully installed and is successfully running in the background under process $processID on this host"
