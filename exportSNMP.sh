@@ -11,10 +11,10 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 # ==== SNMP.YAML =========================================================================================
 
 sudo su -c 'echo """
-  - job_name: "snmp"
+  - job_name: snmp
     static_configs:
       - targets:
-""" >> /etc/prometheus/prometheus.yml'
+""" >> /etc/prometheus/prometheus.yaml'
 
 #filename="random_$(date +%s%N | sha256sum | head -c 8).txt"
 #touch $filename
@@ -26,7 +26,7 @@ do
 
   if [[ $deviceIP =~ $IPv4 ]];
   then
-    sudo su -c 'echo "       - $deviceIP" >> /etc/prometheus/prometheus.yml'
+    sudo su -c 'echo "       - $deviceIP" >> /etc/prometheus/prometheus.yaml'
 
     read -p "Would you like to add another device? [Y] or [N] " addDevice
     if [[ $addDevice =~ "N" ]];
@@ -54,10 +54,10 @@ sudo su -c 'echo """
         replacement: localhost:9116  # SNMP Exporter address
 
   # Global exporter-level metrics
-  - job_name: 'snmp_exporter'
+  - job_name: snmp_exporter
     static_configs:
-      - targets: ['localhost:9116']
-""" >> /etc/prometheus/prometheus.yml'
+      - targets: [localhost:9116]
+""" >> /etc/prometheus/prometheus.yaml'
 
 # ==== MAIN BODY =========================================================================================
 
