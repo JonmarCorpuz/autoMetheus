@@ -17,7 +17,6 @@ while true;
 do
 
   read -p "Enter the IP address for the Linux node that you would like to scrape: " deviceIP
-  echo ""
 
   if [[ $deviceIP =~ $IPv4 ]];
   then
