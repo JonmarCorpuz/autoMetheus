@@ -10,37 +10,35 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 
 # ==== MAIN BODY =========================================================================================
 
-sudo apt -y install sshpass
-while true;
-do
+touch tmp.yaml
 
-  read -p "Enter the IP address for your Prometheus server: " prometheusIP
+#while true;
+#do
 
-  if ! ping $prometheusIP -c 4 &> /dev/null;
-  then
-    echo -e "${RED}[ERROR]${WHITE} $prometheusIP was unreachable"
-  else
-    read -p "Enter SSH username: " sshUser
-    read -p "Enter SSH password: " sshPassword
+#  read -p "Enter the IP address for your Prometheus server: " prometheusIP
 
-    test=$(sshpass -p '$sshPassword' ssh -o StrictHostKeyChecking=no '$sshUser@$prometheusIP')
-    if $test;
-    then
-      sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
-      'echo \"- job_name: node_exporter\n  static_configs:\n    - targets: [localhost:9100]\" | sudo tee -a /etc/prometheus/prometheus.yaml'
-    else
-      echo -e "${RED}[ERROR]${WHITE} ok"
-    fi
-  fi
-done
+#  if ! ping $prometheusIP -c 4 &> /dev/null;
+#  then
+#    echo -e "${RED}[ERROR]${WHITE} $prometheusIP was unreachable"
+#  else
+#    read -p "Enter SSH username: " sshUser
+#    read -p "Enter SSH password: " sshPassword
 
-sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
-"echo '  - job_name: node_exporter\n    static_configs:' | sudo tee -a /etc/prometheus/prometheus.yaml"
+#    test=$(sshpass -p '$sshPassword' ssh -o StrictHostKeyChecking=no '$sshUser@$prometheusIP')
+#    if $test;
+#    then
+#      sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
+#      'echo \"- job_name: node_exporter\n  static_configs:\n    - targets: [localhost:9100]\" | sudo tee -a /etc/prometheus/prometheus.yaml'
+#    else
+#      echo -e "${RED}[ERROR]${WHITE} ok"
+#    fi
+#  fi
+#done
 
-#sudo su -c 'echo """
-#  - job_name: node_exporter
-#    static_configs:
-#""" >> /etc/prometheus/prometheus.yaml'
+echo """
+  - job_name: node_exporter
+    static_configs:
+""" >> ./tmp.yaml
 
 while true;
 do
@@ -49,8 +47,8 @@ do
 
   if [[ $deviceIP =~ $IPv4 ]];
   then
-    sshpass -p "$sshPassword" ssh -o StrictHostKeyChecking=no "$sshUser@$prometheusIP" \
-    "echo '       - ${deviceIP}' | sudo tee -a /etc/prometheus/prometheus.yaml > /dev/null"
+    cat $deviceIP
+    echo "       - ${deviceIP}" >> ./tmp.yaml
 
     read -p "Would you like to add another device? [Y] or [N] " addDevice
     if [[ $addDevice =~ "N" ]];
@@ -61,7 +59,6 @@ do
   else
     echo -e "${RED}[ERROR]${WHITE} $deviceIP is not a valid IPv4 address\n"
   fi
-
 done
 
 echo -e "${YELLOW}[WARNING]${WHITE} Installing the Node Exporter\n"
