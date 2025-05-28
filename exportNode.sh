@@ -11,7 +11,7 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 # ==== MAIN BODY =========================================================================================
 
 touch appendToPrometheus.yaml
-echo -e "  - job_name: node_exporter\n    static_configs:      - targets: """ >> ./appendToPrometheus.yaml
+echo -e "  - job_name: node_exporter\n    static_configs:      - targets: " >> ./appendToPrometheus.yaml
 
 while true;
 do
