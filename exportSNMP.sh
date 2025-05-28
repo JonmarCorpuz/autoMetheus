@@ -10,11 +10,7 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 
 # ==== SNMP.YAML =========================================================================================
 
-sudo su -c 'echo """
-  - job_name: snmp
-    static_configs:
-      - targets:
-""" >> /etc/prometheus/prometheus.yaml'
+echo -e "  - job_name: snmp/n    static_configs:\n      - targets:" >> tmp.yaml
 
 #filename="random_$(date +%s%N | sha256sum | head -c 8).txt"
 #touch $filename
