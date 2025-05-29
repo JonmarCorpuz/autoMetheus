@@ -21,7 +21,7 @@ do
   if [[ $deviceIP =~ $IPv4 ]];
   then
     echo $deviceIP
-    echo "       - ${deviceIP}" >> ./tmp.yaml
+    echo "        - ${deviceIP}" >> ./tmp.yaml
     echo ""
 
     read -p "Would you like to add another device? [Y] or [N] " addDevice
