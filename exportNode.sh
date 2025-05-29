@@ -15,7 +15,6 @@ echo -e "  - job_name: node_exporter\n    static_configs:\n      - targets:" >> 
 
 while true;
 do
-
   read -p "Enter the IP address for the Linux node that you would like to scrape: " deviceIP
 
   if [[ $deviceIP =~ $IPv4 ]];
@@ -35,31 +34,6 @@ do
     echo -e "${RED}[ERROR]${WHITE} $deviceIP is not a valid IPv4 address\n"
   fi
 done
-
-#while true;
-#do
-
-#  read -p "Enter the IP address for your Prometheus server: " prometheusIP
-
-#  if ping $prometheusIP -c 4 &> /dev/null;
-#  then
-
-#    read -p "Enter SSH username: " sshUser
-    #read -p "Enter SSH password: " sshPassword
-
-#    if scp tmp.yaml $sshUser@$prometheusIP:~/;
-#    then
-#      echo -e "${YELLOW}[NOTICE]${WHITE} appendToPrometheus.yaml was copied to the home directory of $sshUser on $prometheusIP"
-#      echo -e "${YELLOW}[NOTICE]${WHITE} Please append the contents of this file to your prometheus.yaml configuration file"
-#    else
-#      echo -e "${RED}[ERROR]${WHITE} Failed to copy appendToPrometheus.yaml to the home directory of $sshUser on $prometheusIP"
-#      echo -e "${YELLOW}[NOTICE]${WHITE} Please append the contents of this file to your prometheus.yaml configuration file"
-#    fi
-#  else
-#    echo -e "${RED}[ERROR]${WHITE} $prometheusIP was unreachable"
-#    echo -e "${YELLOW}[NOTICE]${WHITE} Please append the contents of this file to your prometheus.yaml configuration file"
-#  fi
-#done
 
 echo -e "${YELLOW}[WARNING]${WHITE} Installing the Node Exporter\n"
 wget https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
