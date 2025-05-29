@@ -4,6 +4,6 @@
 
 | Tool | Purpose |
 | --- | --- |
-| `getPrometheus.sh` | |
-| `exportNode.sh` | |
-| `exportSNMP` | |
+| [getPrometheus.sh](https://github.com/JonmarCorpuz/autoMetheus/blob/main/getPrometheus.sh) | |
+| [exportNode.sh](https://github.com/JonmarCorpuz/autoMetheus/blob/main/exportNode.sh) | |
+| [exportSNMP](https://github.com/JonmarCorpuz/autoMetheus/blob/main/exportSNMP.sh) | |
