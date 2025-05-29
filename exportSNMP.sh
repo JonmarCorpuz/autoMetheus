@@ -10,19 +10,16 @@ IPv4='^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[
 
 # ==== SNMP.YAML =========================================================================================
 
-echo -e "  - job_name: snmp/n    static_configs:\n      - targets:" >> tmp.yaml
-
-#filename="random_$(date +%s%N | sha256sum | head -c 8).txt"
-#touch $filename
+echo -e "  - job_name: snmp\n    static_configs:\n      - targets:" >> ./tmp.yaml
 
 while true;
 do
-
   read -p "Enter the IP address for the networking device that you would like to scrape: " deviceIP
 
   if [[ $deviceIP =~ $IPv4 ]];
   then
-    sudo su -c 'echo "       - $deviceIP" >> /etc/prometheus/prometheus.yaml'
+    echo "        - $deviceIP" >> ./tmp.yaml
+    echo ""
 
     read -p "Would you like to add another device? [Y] or [N] " addDevice
     if [[ $addDevice =~ "N" ]];
@@ -33,10 +30,9 @@ do
   else
     echo -e "${RED}[ERROR]${WHITE} $deviceIP is not a valid IPv4 address\n"
   fi
-
 done
 
-sudo su -c 'echo """
+echo """
     metrics_path: /snmp
     params:
       auth: [public_v2]
@@ -53,10 +49,11 @@ sudo su -c 'echo """
   - job_name: snmp_exporter
     static_configs:
       - targets: [localhost:9116]
-""" >> /etc/prometheus/prometheus.yaml'
+""" >> ./tmp.yaml
 
 # ==== MAIN BODY =========================================================================================
 
+echo -e "${YELLOW}[WARNING]${WHITE} Installing the SNMP Exporter\n"
 wget https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-amd64.tar.gz
 tar xzvf snmp_exporter-0.29.0.linux-amd64.tar.gz &> /dev/null
 cd snmp_exporter-0.29.0.linux-amd64
@@ -75,7 +72,13 @@ modules:
 
 echo -e "${YELLOW}[INFO]${WHITE} Running the SNMP Exporter on the localhost"
 ./snmp_exporter --config.file=./snmp.yaml &
+sleep 5
 
 processID=$(ps -ef | grep snmp_exporter | grep -v grep | awk '{print $2}')
-
 echo -e "\n${GREEN}[SUCCESS]${WHITE} The SNMP Exporter was successfully installed and is successfully running in the background under process $processID on this host"
+
+echo -e "\nPlease add the following to your prometheus configuration file:\n"
+cat ../tmp.yaml && echo ""
+rm ../tmp.yaml
+
+exit 0
