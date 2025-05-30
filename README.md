@@ -2,7 +2,7 @@
 
 **autoMetheus** is a toolkit designed to automate various tasks related to Prometheus, streamlining configuration and management processes.
 
-| Tool | Purpose |
+| Script | Purpose |
 | --- | --- |
 | [getPrometheus.sh](https://github.com/JonmarCorpuz/autoMetheus/blob/main/getPrometheus.sh) | Automatically install and deploy the Prometheus server onto your server |
 | [exportNode.sh](https://github.com/JonmarCorpuz/autoMetheus/blob/main/exportNode.sh) | Automatically install and deploy the Node Exporter on the node you wish to monitor |
