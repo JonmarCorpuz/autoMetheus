@@ -1,6 +1,6 @@
 # autoMetheus Overview
 
-**autoMetheus** is a toolkit designed to automate various tasks related to Prometheus, streamlining configuration and management processes.
+**autoMetheus** is a toolkit created to automate various tasks related to Prometheus, streamlining configuration and management processes.
 
 | Script | Purpose |
 | --- | --- |
