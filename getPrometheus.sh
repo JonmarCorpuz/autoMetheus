@@ -42,15 +42,14 @@ sudo cp -r console_libraries /etc/prometheus
 sudo cp prometheus.yml /etc/prometheus
 
 # Step 4: Set ownership
-echo -e "${YELLOW}[NOTICE]${WHITE} "
 sudo chown -R prometheus:prometheus /etc/prometheus
 sudo chown prometheus:prometheus /usr/local/bin/prometheus
 sudo chown prometheus:prometheus /usr/local/bin/promtool
 sudo chown -R prometheus:prometheus /var/lib/prometheus
-echo -e "${GREEN}[SUCCESS]${WHITE} "
+echo -e "${GREEN}[SUCCESS]${WHITE} Prometheus (v.2.52) was successfully downloaded"
 
 # Step 5: Create Prometheus systemd service
-echo -e "${YELLOW}[NOTICE]${WHITE} Configuring a systemd service for Prometheus"
+echo -e "${YELLOW}[NOTICE]${WHITE} Configuring a systemd service for the Prometheus server"
 touch prometheus.service
 sudo su -c 'echo """
 [Unit]
@@ -85,7 +84,6 @@ scrape_configs:
 """ > /etc/prometheus/prometheus.yaml'
 
 # Step 7: Start Prometheus
-echo -e "${YELLOW}[NOTICE]${WHITE} Starting Prometheus"
 sudo systemctl daemon-reexec 
 sudo systemctl daemon-reload
 sudo systemctl start prometheus
