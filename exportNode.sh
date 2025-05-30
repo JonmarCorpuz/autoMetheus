@@ -43,11 +43,37 @@ tar xvfz node_exporter-1.9.1.linux-amd64.tar.gz &> /dev/null
 
 # Run the Node Exporter in the background
 cd node_exporter-1.9.1.linux-amd64
-./node_exporter & 
-sleep 5
+#./node_exporter & 
+#sleep 5
 
-processID=$(ps -ef | grep node_exporter | grep -v grep | awk '{print $2}')
-echo -e "\n${GREEN}[SUCCESS]${WHITE} The Node Exporter was successfully installed and is successfully running in the background under process $processID on this host"
+#processID=$(ps -ef | grep node_exporter | grep -v grep | awk '{print $2}')
+#echo -e "\n${GREEN}[SUCCESS]${WHITE} The Node Exporter was successfully installed and is successfully running in the background under process $processID on this host"
+
+sudo useradd --no-create-home --shell /bin/false node_exporter
+sudo useradd --no-create-home --shell /bin/false node_exporter
+sudo chown -R node_exporter:node_exporter /opt/node_exporter
+sudo mkdir /opt/node_exporter
+sudo mv node_exporter /opt/node_exporter/
+
+sudo su -c 'echo """
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/opt/node_exporter/node_exporter
+
+[Install]
+WantedBy=default.target
+""" > /etc/systemd/system/node_exporter.service'
+
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable node_exporter
+sudo systemctl start node_exporter
 
 # Cleanup
 echo -e "\nPlease add the following to your prometheus configuration file:\n"
