@@ -41,17 +41,12 @@ echo -e "${YELLOW}[WARNING]${WHITE} Installing the Node Exporter\n"
 wget https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
 tar xvfz node_exporter-1.9.1.linux-amd64.tar.gz &> /dev/null
 
-# Run the Node Exporter in the background
+# Create a systemd service for the Node Exporter
 cd node_exporter-1.9.1.linux-amd64
-#./node_exporter & 
-#sleep 5
 
-#processID=$(ps -ef | grep node_exporter | grep -v grep | awk '{print $2}')
-#echo -e "\n${GREEN}[SUCCESS]${WHITE} The Node Exporter was successfully installed and is successfully running in the background under process $processID on this host"
-
-sudo useradd --no-create-home --shell /bin/false node_exporter
-sudo useradd --no-create-home --shell /bin/false node_exporter
-sudo chown -R node_exporter:node_exporter /opt/node_exporter
+sudo useradd --no-create-home --shell /bin/false node_exporter &> /dev/null
+sudo useradd --no-create-home --shell /bin/false node_exporter &> /dev/null
+sudo chown -R node_exporter:node_exporter /opt/node_exporter 
 sudo mkdir /opt/node_exporter
 sudo mv node_exporter /opt/node_exporter/
 
@@ -70,10 +65,12 @@ ExecStart=/opt/node_exporter/node_exporter
 WantedBy=default.target
 """ > /etc/systemd/system/node_exporter.service'
 
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl enable node_exporter
-sudo systemctl start node_exporter
+sudo systemctl daemon-reexec &> /dev/null
+sudo systemctl daemon-reload &> /dev/null
+sudo systemctl enable node_exporter &> /dev/null
+sudo systemctl start node_exporter &> /dev/null
+
+echo -e "\n${GREEN}[SUCCESS]${WHITE} The Node Exporter was successfully installed and is configured to automatically startup"
 
 # Cleanup
 echo -e "\nPlease add the following to your prometheus configuration file:\n"
