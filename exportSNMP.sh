@@ -72,13 +72,38 @@ modules:
     - 1.3.6.1.4.1.318.1.1.1.2
 """ > snmp.yaml
 
-# Run the SNMP Exporter in the background
-echo -e "${YELLOW}[INFO]${WHITE} Running the SNMP Exporter on the localhost"
-./snmp_exporter --config.file=./snmp.yaml &
-sleep 5
+# Create a systemd service for the SNMP Exporter
+echo -e "${YELLOW}[INFO]${WHITE} Running the SNMP Exporter on the localhost and creating a service to have it automatically "
 
-processID=$(ps -ef | grep snmp_exporter | grep -v grep | awk '{print $2}')
-echo -e "\n${GREEN}[SUCCESS]${WHITE} The SNMP Exporter was successfully installed and is successfully running in the background under process $processID on this host"
+sudo useradd --no-create-home --shell /bin/false snmp_exporter &> /devnull
+sudo useradd --no-create-home --shell /bin/false snmp_exporter &> /devnull
+sudo chown -R snmp_exporter:node_exporter /opt/snmp_exporter
+sudo mkdir /opt/snmp_exporter
+sudo mv snmp_exporter /opt/snmp_exporter/
+sudo mv snmp.yaml /opt/snmp_exporter/
+
+sudo su -c 'echo """
+[Unit]
+Description=Prometheus SNMP Exporter
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/snmp_exporter/snmp_exporter --config.file=/opt/snmp_exporter/snmp.yaml
+Restart=on-failure
+User=nobody
+Group=nogroup
+
+[Install]
+WantedBy=multi-user.target
+""" > /etc/systemd/system/snmp_exporter.service'
+
+sudo systemctl daemon-reexec &> /devnull
+sudo systemctl daemon-reload &> /devnull
+sudo systemctl enable snmp_exporter &> /devnull
+sudo systemctl start snmp_exporter &> /devnull
+
+echo -e "\n${GREEN}[SUCCESS]${WHITE} The SNMP Exporter was successfully installed and is configured to automatically startup"
 
 # Cleanup
 echo -e "\nPlease add the following to your prometheus configuration file:\n"
